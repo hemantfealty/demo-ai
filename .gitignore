@@ -1,0 +1,39 @@
+# Root-level ignores
+*.pyc
+__pycache__/
+*.log
+*.sqlite3
+*.db
+
+# Node and Angular (inside frontend/)
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.env
+frontend/.env.*  # For environment-specific Angular config
+frontend/.vscode/
+
+# Python & FastAPI (inside backend/)
+backend/__pycache__/
+backend/*.pyc
+backend/env/
+backend/venv/
+backend/.env
+backend/.vscode/
+backend/.mypy_cache/
+backend/.pytest_cache/
+backend/.DS_Store
+backend/.idea/
+/backend/modules/AI/faiss_index_reference_docs/
+
+venv/
+# Optional: Ignore IDE and OS-specific files globally
+*.swp
+*.swo
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+
+
+frontend/src/app/environments/environment.ts
