@@ -1,0 +1,28 @@
+.main-content {
+    flex: 1;
+    min-width: 0;
+    height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: 18rem;
+    position: relative;
+}
+
+.main-content.sidebar-open {
+    margin-left: 18rem;
+}
+
+.main-content.sidebar-closed {
+    margin-left: 60px;
+}
+
+
+@media (max-width: 767px) {
+    
+    .main-content.sidebar-open {
+        margin-left: 60px;
+    }
+
+    .main-content.sidebar-closed {
+        margin-left: 60px;
+    }
+}

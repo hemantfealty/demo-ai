@@ -1,0 +1,115 @@
+<div class="sidebar d-flex flex-column" [class.sidebar-collapsed]="isCollapsed">
+  <div class="module-container">
+    <div class="sidebar-header">
+      <div class="sidebar-logo" *ngIf="!isCollapsed">
+        <img src="Android_robot.svg.png" alt="logo" />
+      </div>
+      <div class="sidebar-title" *ngIf="!isCollapsed">
+        <h1 class="fs-5 fw-semibold text-gray-900 mb-0">Demo AI</h1>
+        <!-- <p class="fs-7 text-gray-500 mb-0">Chat History</p> -->
+        <p class="fs-7 text-gray-500 mb-0"></p>
+      </div>
+      <button class="toggle-btn" (click)="toggleSidebar()" title="Toggle btn">
+        <svg
+          width="35px"
+          height="35px"
+          viewBox="0 0 57 57"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="28.5" cy="28.5" r="28.5" fill="#213B4A" />
+          <circle
+            cx="28.5"
+            cy="28.5"
+            r="23.75"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="19.75"
+            y1="22.5"
+            x2="37.75"
+            y2="22.5"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <line
+            x1="19.75"
+            y1="34.5"
+            x2="37.75"
+            y2="34.5"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <line
+            x1="19.75"
+            y1="28.5"
+            x2="33.5"
+            y2="28.5"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </div>
+ 
+    <div class="module-body">
+      <button class="functionality-btn" (click)="startNewChatClicked.emit()">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <span class="btn-text" *ngIf="!isCollapsed">New Chat </span>
+      </button>
+ 
+      <button class="functionality-btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span class="btn-text" *ngIf="!isCollapsed">Search chats</span>
+      </button>
+ 
+      <button class="functionality-btn" routerLinkActive="active" >
+        <i class="fa-solid fa-file-image"></i>
+        <span class="btn-text" *ngIf="!isCollapsed">Library</span>
+      </button>
+    </div>
+    <hr class="dropdown-divider" />
+  </div>
+  <div class="flex-1 p-2 recent-chat-container">
+    <div class="no-recent-chat" *ngIf="!isCollapsed">
+      <i class="fa-regular fa-comment"></i>Recent Chats
+    </div>
+    <div class="no-recent-chat-container overflow-y-auto">
+      <ng-container *ngIf="chatSessions.length === 0; else chatList">
+        <p
+          class="text-gray-500 p-2"
+          style="font-size: 14px"
+          *ngIf="!isCollapsed"
+        >
+          No recent chats
+        </p>
+      </ng-container>
+      <ng-template #chatList>
+        <div
+          *ngFor="let chat of chatSessions | slice : 0 : 10"
+          class="chat-item"
+          [class.active]="chat.chatId === currentChatId"
+          (click)="switchChat(chat.chatId)"
+        >
+          <div class="chat-preview" [title]="chat.preview">
+            <i class="fa-regular fa-message"></i>
+            <span class="">{{ chat.preview }}</span>
+          </div>
+          <!-- <span class="chat-timestamp">{{ chat.timestamp }}</span> -->
+        </div>
+      </ng-template>
+    </div>
+  </div>
+ 
+  <hr class="dropdown-divider" />
+  <div class="back-btn-container p-2">
+    <div class="back-btn" (click)="backToWebsite()">
+      <span *ngIf="!isCollapsed">visit our website</span>
+      <i class="fa-solid fa-arrow-left"></i>
+    </div>
+  </div>
+</div>

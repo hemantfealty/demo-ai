@@ -1,0 +1,21 @@
+<app-sidebar
+ (startNewChatClicked)="onNewChatRequest()"
+  [isCollapsed]="isCollapsed"
+  (toggleEvent)="onToggle($event)"
+  [refreshTrigger]="sidebarRefreshFlag"
+  [currentChatId]="currentChatId"
+  (chatIdChange)="onChatIdChange($event)"
+  (latestChatTitle)="onLatestChatTitle($event)"
+></app-sidebar>
+ 
+<div class="main-content d-flex flex-column"
+     [class.sidebar-open]="!isCollapsed"
+     [class.sidebar-closed]="isCollapsed">
+    <app-chat
+    #chatComp
+    [currentChatId]="currentChatId"
+    (requestChatsReload)="handleFetchChatsRequest()"
+    (chatNotEmpty)="onChatNotEmpty()"
+    (chatEmpty)="onChatEmpty()"
+  ></app-chat>
+</div>

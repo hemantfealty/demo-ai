@@ -1,0 +1,98 @@
+  <header class="main-header">
+    <b class="text-center">
+    <p class="m-0">
+      Note: This is just a demo AI created by Fealty Technologies Pvt. Ltd. 
+    </p>
+    <p class="m-0">
+      To get a full product contact us on: 9755038393
+    </p>
+    </b>
+  </header>
+  <div class="messages-area">
+    <ng-container *ngIf="messages.length === 0 || !currentChatId; else chatMessages">
+      <div class="welcome-screen">
+        <div class="text-center max-w-md mx-auto px-4">
+          <div class="mb-8">
+            <h2 class="fs-1 fw-bold mb-4 ai-heading">Chat with DemoAI</h2>
+            <p class="fs-5 text-gray-600">Ask questions about your database from the AI through simple chat messages </p>
+          </div>
+          <div class="d-grid gap-3 mb-8">
+            <button class="sample-btn text-center" (click)="startSampleChat('First Sample Question from the Database API')">
+              First Sample Question from the Database API
+            </button>
+            <button class="sample-btn text-center" (click)="startSampleChat('Second Sample Question from the Database API')">
+              Second Sample Question from the Database API
+            </button>
+            <button class="sample-btn text-center" (click)="startSampleChat('Third Sample Question from the Database API')">
+              Third Sample Question from the Database API
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-template #chatMessages>
+      <div *ngFor="let message of filteredMessages">
+        <div class="message" [ngClass]="{'user': message.isUser, 'ai': !message.isUser}">
+          <!-- User message -->
+          <div *ngIf="message.isUser">
+            <p class="mb-0">{{ message.text }}</p>
+          </div>
+          
+          <!-- AI message -->
+          <div *ngIf="!message.isUser">
+            <!-- 1) Plain Text -->
+            <div *ngIf="message.text" class="mb-3">
+              <p class="mb-0" [innerHTML]="boldifyMarkdown(message.text)"></p>
+            </div>
+            
+            <!-- 2) Charts -->
+            <div *ngIf="message.charts && message.charts.length > 0">
+              <div *ngFor="let chart of message.charts" class="chart-container mb-3">
+                <highcharts-chart
+                  [Highcharts]="Highcharts"
+                  [options]="chart"
+                  style="width: 100%; height: 400px; display: block;">
+                </highcharts-chart>
+                <!-- 3) HTML Snippet (below each chart) -->
+                <div *ngIf="message.html" class="mt-2 inside-message-button" style="color: white !important;" [innerHTML]="message.html"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div *ngIf="isTyping" class="message ai typing">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </ng-template>    
+    <div #messagesEnd></div>
+  </div>
+  <div class="chat-footer">
+    <div class="input-area">
+      <textarea #chatInput 
+                rows="1" 
+                autofocus 
+                placeholder="Ask a question related to your database"
+                [(ngModel)]="inputText"
+                (input)="adjustTextareaHeight()"
+                (keydown.enter)="handleSend($event)"></textarea>
+      <div class="icon-row">
+        <div class="left-icons ">
+          <i class="fas fa-plus icon"></i>
+        </div>
+        <div class="right-icons">
+          <i id="sendButton"
+          class="fas fa-microphone icon"
+             [class.listening]="isListening"
+             (click)="toggleSpeechRecognition()"></i>
+          <i class="fas fa-paper-plane icon"
+             [class.disabled]="!inputText.trim() || isTyping"
+             (click)="sendMessage()"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </div> -->

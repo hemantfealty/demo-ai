@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+// Global css for scroll bar
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #213b4a;
+    border-radius: 50px;
+    border: 2px solid #213b4a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #1C619C;
+    border: 2px solid #1C619C;
+}
+
+// Global css for scroll bar
+
+body {
+    background: #f9fafb;
+    height: 100vh;
+    margin: 0;
+    // display: flex;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+/* styles.scss */
+
+a.inside-message-button,
+a.inside-message-button:link,
+a.inside-message-button:visited,
+a.inside-message-button:hover,
+a.inside-message-button:active {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 50px;
+  background-color: #213b4a;
+  color: #fff !important;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  -webkit-text-fill-color: #fff !important; /* for extra specificity */
+}
+a.inside-message-button:hover {
+  color: #fb7e3b !important;
+  -webkit-text-fill-color: #fb7e3b !important;
+}
