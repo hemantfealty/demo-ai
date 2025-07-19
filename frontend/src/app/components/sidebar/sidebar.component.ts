@@ -12,11 +12,11 @@ import {
 import { ChatService } from '../../services/chat.service';
  
 interface ChatSession {
-  id: string;
+  session_id: string;
   title: string;
   updated_at: string;
 }
- 
+
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -37,8 +37,12 @@ export class SidebarComponent implements OnInit, OnChanges {
   @Output() latestChatTitle = new EventEmitter<{title: string, chatId: string}>();
 
 
-  chatSessions: { chatId: string; preview: string; timestamp: string }[] = [];
- 
+  chatSessions: {
+    chatId: string;
+    preview: string;
+    timestamp: string;
+  }[] = [];
+
   constructor(private chatService: ChatService) {}
 
   ngOnInit() {
@@ -53,16 +57,22 @@ export class SidebarComponent implements OnInit, OnChanges {
 
   fetchChats() {
     this.chatService.getChatIds()
-      .subscribe((res: any) => {
-        if (!res.status || !Array.isArray(res.data)) return;
- 
-        this.chatSessions = res.data.map((c: ChatSession) => ({
-          chatId: c.id,
-          preview: c.title,
-          timestamp: new Date(c.updated_at)
-                      .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }));
-      }, err => console.error('fetchChats error', err));
+      .subscribe(
+        (res: any) => {
+          if (res.status !== 'success' || !Array.isArray(res.data?.sessions)) {
+            console.warn('Unexpected response format', res);
+            return;
+          }
+
+          this.chatSessions = res.data.sessions.map((c: ChatSession) => ({
+            chatId:        c.session_id,
+            preview:       c.title,
+            timestamp:     new Date(c.updated_at)
+                              .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }));
+        },
+        err => console.error('fetchChats error', err)
+      );
   }
 
   switchChat(chatId: string) {

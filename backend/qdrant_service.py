@@ -30,7 +30,8 @@ def get_all_sessions(client: QdrantClient) -> List[Dict[str, str]]:
         for point in points:
             session_id = point.payload["session_id"]
             title = point.payload.get("title", "new chat")  # Fallback to "new chat" if title is missing
-            session_data[session_id] = {"session_id": session_id, "title": title}
+            timestamp = point.payload.get("timestamp","")  # empty string for fallback
+            session_data[session_id] = {"session_id": session_id, "title": title, "updated_at": timestamp}
         if next_offset is None:
             break
     return list(session_data.values())

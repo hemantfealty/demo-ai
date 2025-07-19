@@ -183,9 +183,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.isTyping = true;
     sendButton.style.pointerEvents = 'none';
    
-    if (!this.currentChatId || this.currentChatId === 'new' || this.currentChatId === null) {
+    if (!this.currentChatId || this.currentChatId === 'new') {
       const resp: any = await this.chatService.newChatId().toPromise();
-      this.currentChatId = resp.data.id;
+      this.currentChatId = resp.data.session_id;
       console.log('New Chat ID:', this.currentChatId);
     }
 
