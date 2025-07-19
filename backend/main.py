@@ -3,10 +3,20 @@ from controller import router as database_router
 from service import get_schema_info
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as rest
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 app.include_router(database_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # <-- Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "chat_messages"

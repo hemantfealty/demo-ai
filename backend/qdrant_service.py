@@ -7,12 +7,20 @@ from datetime import datetime
 COLLECTION_NAME = "chat_messages"
 VECTOR_SIZE = 128
 
-def get_all_sessions(client: QdrantClient) -> List[str]:
-    session_ids = set()
+def get_all_sessions(client: QdrantClient) -> List[Dict[str, str]]:
+    session_data = {}
     next_offset = None
     while True:
         response = client.scroll(
             collection_name=COLLECTION_NAME,
+            scroll_filter=rest.Filter(
+                must=[
+                    rest.FieldCondition(
+                        key="message_type",
+                        match=rest.MatchValue(value="session_start")
+                    )
+                ]
+            ),
             limit=100,
             with_payload=True,
             with_vectors=False,
@@ -20,10 +28,12 @@ def get_all_sessions(client: QdrantClient) -> List[str]:
         )
         points, next_offset = response
         for point in points:
-            session_ids.add(point.payload["session_id"])
+            session_id = point.payload["session_id"]
+            title = point.payload.get("title", "new chat")  # Fallback to "new chat" if title is missing
+            session_data[session_id] = {"session_id": session_id, "title": title}
         if next_offset is None:
             break
-    return list(session_ids)
+    return list(session_data.values())
 
 def get_messages_for_session(client: QdrantClient, session_id: str) -> List[Dict]:
     response = client.scroll(
@@ -59,6 +69,10 @@ def get_chat_history(client: QdrantClient, session_id: str) -> List[Dict]:
                 rest.FieldCondition(
                     key="session_id",
                     match=rest.MatchValue(value=session_id)
+                ),
+                rest.FieldCondition(
+                    key="message_type",
+                    match=rest.MatchAny(any=["user", "assistant"])
                 )
             ]
         ),
@@ -84,3 +98,27 @@ def store_message(client: QdrantClient, message: dict):
             )
         ]
     )
+
+def get_session_title(client: QdrantClient, session_id: str) -> str:
+    response = client.scroll(
+        collection_name=COLLECTION_NAME,
+        scroll_filter=rest.Filter(
+            must=[
+                rest.FieldCondition(
+                    key="session_id",
+                    match=rest.MatchValue(value=session_id)
+                ),
+                rest.FieldCondition(
+                    key="message_type",
+                    match=rest.MatchValue(value="session_start")
+                )
+            ]
+        ),
+        limit=1,
+        with_payload=True,
+        with_vectors=False
+    )
+    points = response[0]
+    if points:
+        return points[0].payload.get("title", "new chat")
+    return "new chat"  # Fallback if session_start record is missing
