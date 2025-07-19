@@ -1,0 +1,16 @@
+# web framework
+fastapi
+uvicorn[standard]
+
+# .env support
+python-dotenv
+
+# MySQL driver
+mysql-connector-python
+
+# LLM orchestration
+langchain
+langchain-google-genai
+
+# (optional) if you use typing helpers, etc.
+pydantic
