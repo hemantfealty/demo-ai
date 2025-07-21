@@ -12,17 +12,16 @@ export class ChatService {
   constructor(private http: HttpClient) {}
 
   sendMessage(message: string, chatid: string | null): Observable<any> {
-    const payload = { human_message: message };
-    return this.http.post(`${API_URL}/chat-sessions/${chatid}/messages`, payload);
+    const payload = { question: message };
+    return this.http.post(`${API_URL}/chats/${chatid}/messages`, payload);
   }
 
   previousMessage(chatid: string | null): Observable<any> {
-    return this.http.get(`${API_URL}/chat-sessions/${chatid}`);
+    return this.http.get(`${API_URL}/chats/${chatid}/messages`);
   }
 
   newChatId(): Observable<any> {
-    const payload = { title: 'New Chat' };
-    return this.http.post(`${API_URL}/chat-sessions/`, payload);
+    return this.http.get(`${API_URL}/chats/`);
   }
 
   getChatIds(): Observable<any> {

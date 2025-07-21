@@ -206,12 +206,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     try {
       const response = await this.chatService.sendMessage(text, this.currentChatId).toPromise();
+      console.log("Response: ", response)
+      console.log("Response.data: ", response.data)
+      console.log("Response.data.response: ", response.data.response)
       const aiResponse = response.data.response;
 
       // Add AI message
       const aiMessage = {
         id: Date.now() + 1,
-        text: aiResponse.text || "I couldn't process your request",
+        text: aiResponse || "I couldn't process your request",
+        // text: aiResponse.text || "I couldn't process your request",
         charts: aiResponse.charts || [],
         isUser: false,
         chatId: this.currentChatId,
