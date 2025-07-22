@@ -27,4 +27,7 @@ export class ChatService {
   getChatIds(): Observable<any> {
     return this.http.get(`${API_URL}/chats`);
   }
+  getRecommendedQuestions(): Observable<any> {
+    return this.http.get(`${API_URL}/recommended-question`);
+  }
 }

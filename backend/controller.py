@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import uuid
@@ -12,7 +13,7 @@ from qdrant_service import (
     get_session_title,
 )
 from service import execute_query
-from agents import generate_query, generate_response, generate_chat_title
+from agents import generate_query, generate_response, generate_chat_title, generate_questions_from_llm
 from qdrant_client.http import models as rest
 import json
 
@@ -174,4 +175,21 @@ def delete_chat_session(session_id: str, request: Request):
         status_str="success",
         code=status.HTTP_200_OK,
         message="Session deleted successfully",
+    )
+
+
+
+
+@router.get("/recommended-question")
+def recommend_question(request: Request):
+    schema_info = getattr(request.app.state, "schema_info", None)
+    if schema_info is None:
+        raise HTTPException(status_code=500, detail="Schema information not available")
+    questions = generate_questions_from_llm(schema_info)
+
+    return format_response(
+        status_str="success",
+        code=200,
+        message="Generated suggested questions",
+        data={"questions": questions}
     )

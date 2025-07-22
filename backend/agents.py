@@ -2,8 +2,14 @@ from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 import os
-
+from langchain_core.output_parsers import PydanticOutputParser
+from pydantic import BaseModel
+from typing import List
 load_dotenv()
+
+class Questions(BaseModel):
+    questions: List[str]
+
 model = ChatGoogleGenerativeAI(model=os.getenv("LLM_MODEL"))
 
 mysql_prompt = PromptTemplate(
@@ -68,3 +74,29 @@ def generate_chat_title(message: str) -> str:
         if len(title.split()) < 2:
             title = "Chat Summary"
     return title
+
+def generate_questions_from_llm(schema: str):
+    # Create parser
+    parser = PydanticOutputParser(pydantic_object=Questions)
+
+    # Create prompt
+    prompt = PromptTemplate(
+        input_variables=["schema"],
+        template="""Given the following database schema, generate a list of 3 most relevant first time questions that user could ask about the data in the database.
+Database schema:
+{schema}
+
+{format_instructions}
+""",
+        partial_variables={"format_instructions": parser.get_format_instructions()},
+    )
+
+    # Create model
+    model = ChatGoogleGenerativeAI(model=os.getenv("LLM_MODEL"))
+
+    # Get output
+    response = model.invoke(prompt.format(schema=schema))
+    
+    # Parse output
+    questions = parser.parse(response.content)
+    return questions.questions

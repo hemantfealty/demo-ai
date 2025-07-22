@@ -37,3 +37,5 @@ Thumbs.db
 
 
 frontend/src/app/environments/environment.ts
+
+backend/qdrant_storage
