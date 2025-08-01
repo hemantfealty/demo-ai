@@ -1,0 +1,47 @@
+{
+  "backup_timestamp": "2025-07-30T00:22:39.306081",
+  "database": "school_db",
+  "total_tables": 8,
+  "results": [
+    {
+      "table": "classes",
+      "status": "success",
+      "file": "backups/20250730_002237/classes_20250730_002237.sql"
+    },
+    {
+      "table": "bankdetails",
+      "status": "success",
+      "file": "backups/20250730_002237/bankdetails_20250730_002237.sql"
+    },
+    {
+      "table": "parents",
+      "status": "success",
+      "file": "backups/20250730_002237/parents_20250730_002237.sql"
+    },
+    {
+      "table": "marks",
+      "status": "success",
+      "file": "backups/20250730_002237/marks_20250730_002237.sql"
+    },
+    {
+      "table": "sections",
+      "status": "success",
+      "file": "backups/20250730_002237/sections_20250730_002238.sql"
+    },
+    {
+      "table": "scholarships",
+      "status": "success",
+      "file": "backups/20250730_002237/scholarships_20250730_002238.sql"
+    },
+    {
+      "table": "subjects",
+      "status": "success",
+      "file": "backups/20250730_002237/subjects_20250730_002238.sql"
+    },
+    {
+      "table": "students",
+      "status": "success",
+      "file": "backups/20250730_002237/students_20250730_002238.sql"
+    }
+  ]
+}

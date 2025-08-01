@@ -15,7 +15,7 @@ model = ChatGoogleGenerativeAI(model=os.getenv("LLM_MODEL"))
 mysql_prompt = PromptTemplate(
     input_variables=["schema", "chat_history", "question"],
     template="""Given the following database schema and conversation history, generate a SQL query to answer the user's new question.
-
+    Make sure that the table names are completely in small letters
 Database schema:
 {schema}
 

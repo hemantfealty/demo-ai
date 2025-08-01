@@ -1,0 +1,47 @@
+{
+  "backup_timestamp": "2025-07-30T00:18:36.082715",
+  "database": "school_db",
+  "total_tables": 8,
+  "results": [
+    {
+      "table": "marks",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    },
+    {
+      "table": "classes",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    },
+    {
+      "table": "bankdetails",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    },
+    {
+      "table": "parents",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    },
+    {
+      "table": "students",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    },
+    {
+      "table": "scholarships",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    },
+    {
+      "table": "sections",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    },
+    {
+      "table": "subjects",
+      "status": "error",
+      "error": "[WinError 2] The system cannot find the file specified"
+    }
+  ]
+}

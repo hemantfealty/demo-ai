@@ -2,6 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 import os
 from dotenv import load_dotenv
+from qdrant_service import get_messages_for_session
 load_dotenv()
 
 def create_connection():
@@ -63,3 +64,10 @@ def execute_query(query):
         if connection.is_connected():
             cursor.close()
             connection.close()
+
+def search_messages_for_session(client, session_id, query):
+    """
+    Returns messages for a session where the content contains the query string (case-insensitive).
+    """
+    messages = get_messages_for_session(client, session_id)
+    return [m for m in messages if query.lower() in m["content"].lower()]
