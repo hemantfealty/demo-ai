@@ -25,6 +25,8 @@ backend/.pytest_cache/
 backend/.DS_Store
 backend/.idea/
 /backend/modules/AI/faiss_index_reference_docs/
+backups
+qdrant_storage
 
 venv/
 # Optional: Ignore IDE and OS-specific files globally
